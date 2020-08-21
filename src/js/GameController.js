@@ -1,3 +1,6 @@
+//  temp Bowman import:
+import Bowman from './Bowman';
+
 export default class GameController {
   constructor(gamePlay, stateService) {
     this.gamePlay = gamePlay;
@@ -7,6 +10,12 @@ export default class GameController {
   init() {
     // TODO: add event listeners to gamePlay events
     // TODO: load saved stated from stateService
+    this.gamePlay.drawUi('prairie');
+    //  temp redrawPositions:
+    this.gamePlay.redrawPositions([
+      { character: new Bowman(1), position: 0 },
+      { character: new Bowman(1), position: 1 },
+    ]);
   }
 
   onCellClick(index) {
