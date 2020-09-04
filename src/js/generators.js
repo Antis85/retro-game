@@ -8,7 +8,7 @@
 export function* characterGenerator(allowedTypes, maxLevel) {
   // TODO: write logic here
   const randomIndex = Math.floor(Math.random() * allowedTypes.length);
-  const randomLevel = Math.floor(Math.random() * maxLevel);
+  const randomLevel = Math.ceil(Math.random() * maxLevel);
   const RandomCharacter = allowedTypes[randomIndex];
   yield new RandomCharacter(randomLevel);
 }

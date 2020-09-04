@@ -44,9 +44,15 @@ export default class GamePlay {
     this.saveGameEl = this.container.querySelector('[data-id=action-save]');
     this.loadGameEl = this.container.querySelector('[data-id=action-load]');
 
-    this.newGameEl.addEventListener('click', (event) => this.onNewGameClick(event));
-    this.saveGameEl.addEventListener('click', (event) => this.onSaveGameClick(event));
-    this.loadGameEl.addEventListener('click', (event) => this.onLoadGameClick(event));
+    this.newGameEl.addEventListener('click', (event) =>
+      this.onNewGameClick(event)
+    );
+    this.saveGameEl.addEventListener('click', (event) =>
+      this.onSaveGameClick(event)
+    );
+    this.loadGameEl.addEventListener('click', (event) =>
+      this.onLoadGameClick(event)
+    );
 
     this.boardEl = this.container.querySelector('[data-id=board]');
 
@@ -56,7 +62,7 @@ export default class GamePlay {
       cellEl.classList.add(
         'cell',
         'map-tile',
-        `map-tile-${calcTileType(i, this.boardSize)}`,
+        `map-tile-${calcTileType(i, this.boardSize)}`
       );
       cellEl.addEventListener('mouseenter', (event) => this.onCellEnter(event));
       cellEl.addEventListener('mouseleave', (event) => this.onCellLeave(event));
@@ -65,8 +71,11 @@ export default class GamePlay {
     }
 
     this.cells = Array.from(this.boardEl.children);
-    console.log(this.cells);// ***удалить!!!***
-    console.log('this.cells[0]: ', this.cells[0]);// ***удалить!!!***
+    //  ****************************************************************
+
+    console.log('GamePlay_this.cells: ', this.cells);
+
+    //  ****************************************************************
   }
 
   /**
@@ -90,13 +99,19 @@ export default class GamePlay {
       const healthIndicatorEl = document.createElement('div');
       healthIndicatorEl.classList.add(
         'health-level-indicator',
-        `health-level-indicator-${calcHealthLevel(position.character.health)}`,
+        `health-level-indicator-${calcHealthLevel(position.character.health)}`
       );
       healthIndicatorEl.style.width = `${position.character.health}%`;
       healthEl.appendChild(healthIndicatorEl);
 
       charEl.appendChild(healthEl);
       cellEl.appendChild(charEl);
+      //  ****************************************************************
+
+      console.log('GamePlay_charEl: ', charEl);
+      console.log('GamePlay_cellEl: ', cellEl);
+
+      //  ****************************************************************
     }
   }
 
@@ -158,6 +173,17 @@ export default class GamePlay {
     event.preventDefault();
     const index = this.cells.indexOf(event.currentTarget);
     this.cellEnterListeners.forEach((o) => o.call(null, index));
+        //  ********************************************************************
+    
+        /*console.log(
+          'GamePlay_this.cell...Listeners: ',
+          this.cellClickListeners,
+          this.cellEnterListeners,
+          this.cellLeaveListeners,
+          this,
+        );*/
+        
+        //  ********************************************************************
   }
 
   onCellLeave(event) {
@@ -202,7 +228,7 @@ export default class GamePlay {
   deselectCell(index) {
     const cell = this.cells[index];
     cell.classList.remove(
-      ...Array.from(cell.classList).filter((o) => o.startsWith('selected')),
+      ...Array.from(cell.classList).filter((o) => o.startsWith('selected'))
     );
   }
 
