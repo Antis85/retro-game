@@ -1,4 +1,4 @@
-import Team from './Team';
+import Team from './team_generation/Team';
 import GamePlay from './GamePlay';
 
 export default class GameController {
