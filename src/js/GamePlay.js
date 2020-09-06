@@ -173,17 +173,17 @@ export default class GamePlay {
     event.preventDefault();
     const index = this.cells.indexOf(event.currentTarget);
     this.cellEnterListeners.forEach((o) => o.call(null, index));
-        //  ********************************************************************
-    
-        /*console.log(
+    //  ********************************************************************
+
+    /*  console.log(
           'GamePlay_this.cell...Listeners: ',
           this.cellClickListeners,
           this.cellEnterListeners,
           this.cellLeaveListeners,
           this,
-        );*/
-        
-        //  ********************************************************************
+        );  */
+
+    //  ********************************************************************
   }
 
   onCellLeave(event) {
