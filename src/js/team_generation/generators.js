@@ -10,7 +10,18 @@ export function* characterGenerator(allowedTypes, maxLevel) {
   const randomIndex = Math.floor(Math.random() * allowedTypes.length);
   const randomLevel = Math.ceil(Math.random() * maxLevel);
   const RandomCharacter = allowedTypes[randomIndex];
-  yield new RandomCharacter(randomLevel);
+  const newRandomCharacter = new RandomCharacter(randomLevel);
+  if (randomLevel > 1) {
+    console.log('characterGenerator_randomLevel: ', randomLevel);
+    let count = 0;
+    for (let i = 0; i < randomLevel - 1; i += 1) {
+      newRandomCharacter.levelUp();
+      count += 1;
+    }
+    console.log(`characterGenerator_levelUp() x ${count} times `);
+    newRandomCharacter.level = randomLevel;
+  }
+  yield newRandomCharacter;
 }
 
 export function generateTeam(allowedTypes, maxLevel, characterCount) {

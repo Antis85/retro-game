@@ -15,7 +15,9 @@ export default class Team {
     this.characterCount = 2;
     this.player = [];
     this.npc = [];
-    this.gameSet = [];
+    this.boardSize = 8;
+    // this.gameSet = [...this.player, ...this.npc]; // так еще хуже!
+    // this.gameSet = [];
   }
 
   getRndNumber(numbers) {
@@ -24,46 +26,58 @@ export default class Team {
     return this.numbers[index];
   }
 
-  generateTeamPlayer() {
+  generateTeamPlayer(maxLvl = this.maxLevel, charCount = this.characterCount) {
     const generatedTeamArr = generateTeam(
       this.allowedTypesPlayer,
-      this.maxLevel,
-      this.characterCount
+      maxLvl,
+      charCount,
     ); //  массив рандомных персонажей
 
     const startPositionsPlayer = []; //  массив допустимых начальных позиций персонажей
-    const boardSize = 8; //  надо брать из this.gamePlay.boardSize!!!
-    for (let i = 0; i < boardSize ** 2; i += 1) {
-      if (!(i % boardSize) || !((i - 1) % boardSize)) {
+    for (let i = 0; i < this.boardSize ** 2; i += 1) {
+      if (!(i % this.boardSize) || !((i - 1) % this.boardSize)) {
         startPositionsPlayer.push(i);
       }
     }
 
+    // ниже не нужно, надо добавить сущ. персов и заново генерить позиции
+    // startPositionsPlayer.filter((position) => !(this.player.find((player) => player.position === position))); 
+
     const generatedPositionsPlayer = []; //  массив рандомных начальных позиций персонажей
-    while (generatedPositionsPlayer.length < this.characterCount) {
+    while (generatedPositionsPlayer.length < (charCount + this.player.length)) {
       const randomPos = this.getRndNumber(startPositionsPlayer);
       if (!generatedPositionsPlayer.includes(randomPos)) {
         generatedPositionsPlayer.push(randomPos);
       }
     }
 
+    // const existTeamArr = [];
+    if (this.player.length) {
+      this.player.slice().map((player) => player.character).forEach((character) => generatedTeamArr.push(character));
+      this.player = [];
+      // generatedTeamArr.concat(existTeamArr);
+      // console.log('Team()_existTeamArr: ', existTeamArr);
+      // console.log('Team()_generatedTeamArr_concat: ', generatedTeamArr);
+      // console.log('Team()_generatedTeamArr.concat(existTeamArr): ', generatedTeamArr.concat(existTeamArr));
+    }
+    console.log('Team()_generatedTeamArr_finish: ', generatedTeamArr);
     generatedTeamArr.forEach((character, index) => {
       const position = generatedPositionsPlayer[index];
       this.player.push(new PositionedCharacter(character, position));
     });
   }
 
-  generateTeamNpc() {
+  generateTeamNpc(maxLvl = this.maxLevel, charCount = this.characterCount) {
     const generatedTeamArr = generateTeam(
       this.allowedTypesNpc,
-      this.maxLevel,
-      this.characterCount
+      maxLvl,
+      1, //  1 - для отладки смены уровней
+      //  charCount,
     ); //  массив рандомных персонажей
 
     const startPositionsNpc = []; //  массив допустимых начальных позиций персонажей
-    const boardSize = 8; //  надо брать из this.gamePlay.boardSize!!!
-    for (let i = 0; i < boardSize ** 2; i += 1) {
-      if (!((i + 1) % boardSize) || !((i + 2) % boardSize)) {
+    for (let i = 0; i < this.boardSize ** 2; i += 1) {
+      if (!((i + 1) % this.boardSize) || !((i + 2) % this.boardSize)) {
         startPositionsNpc.push(i);
       }
     }
@@ -85,6 +99,7 @@ export default class Team {
   generateGameSet() {
     this.generateTeamPlayer();
     this.generateTeamNpc();
-    this.gameSet = this.player.concat(this.npc);
+    // console.log('after_start_gen_this.npc', this.npc);
+    // console.log('after_start_gen_this.player', this.player);
   }
 }

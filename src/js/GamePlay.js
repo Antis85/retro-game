@@ -71,11 +71,6 @@ export default class GamePlay {
     }
 
     this.cells = Array.from(this.boardEl.children);
-    //  ****************************************************************
-
-    console.log('GamePlay_this.cells: ', this.cells);
-
-    //  ****************************************************************
   }
 
   /**
@@ -106,12 +101,6 @@ export default class GamePlay {
 
       charEl.appendChild(healthEl);
       cellEl.appendChild(charEl);
-      //  ****************************************************************
-
-      console.log('GamePlay_charEl: ', charEl);
-      console.log('GamePlay_cellEl: ', cellEl);
-
-      //  ****************************************************************
     }
   }
 
@@ -173,17 +162,6 @@ export default class GamePlay {
     event.preventDefault();
     const index = this.cells.indexOf(event.currentTarget);
     this.cellEnterListeners.forEach((o) => o.call(null, index));
-    //  ********************************************************************
-
-    /*  console.log(
-          'GamePlay_this.cell...Listeners: ',
-          this.cellClickListeners,
-          this.cellEnterListeners,
-          this.cellLeaveListeners,
-          this,
-        );  */
-
-    //  ********************************************************************
   }
 
   onCellLeave(event) {
