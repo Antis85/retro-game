@@ -15,9 +15,9 @@ export default class Team {
     this.characterCount = 2;
     this.player = [];
     this.npc = [];
+    this.loadedlayer = [];
+    this.loadedNpc = [];
     this.boardSize = 8;
-    // this.gameSet = [...this.player, ...this.npc]; // так еще хуже!
-    // this.gameSet = [];
   }
 
   getRndNumber(numbers) {
@@ -31,7 +31,7 @@ export default class Team {
       this.allowedTypesPlayer,
       maxLvl,
       charCount,
-    ); //  массив рандомных персонажей
+    ); //  массив рандомных персонажей игорька
 
     const startPositionsPlayer = []; //  массив допустимых начальных позиций персонажей
     for (let i = 0; i < this.boardSize ** 2; i += 1) {
@@ -39,9 +39,6 @@ export default class Team {
         startPositionsPlayer.push(i);
       }
     }
-
-    // ниже не нужно, надо добавить сущ. персов и заново генерить позиции
-    // startPositionsPlayer.filter((position) => !(this.player.find((player) => player.position === position))); 
 
     const generatedPositionsPlayer = []; //  массив рандомных начальных позиций персонажей
     while (generatedPositionsPlayer.length < (charCount + this.player.length)) {
@@ -51,16 +48,13 @@ export default class Team {
       }
     }
 
-    // const existTeamArr = [];
+    //  для смены уровня
     if (this.player.length) {
-      this.player.slice().map((player) => player.character).forEach((character) => generatedTeamArr.push(character));
+      this.player.slice().map((player) => player.character).forEach(
+        (character) => generatedTeamArr.push(character),
+      );
       this.player = [];
-      // generatedTeamArr.concat(existTeamArr);
-      // console.log('Team()_existTeamArr: ', existTeamArr);
-      // console.log('Team()_generatedTeamArr_concat: ', generatedTeamArr);
-      // console.log('Team()_generatedTeamArr.concat(existTeamArr): ', generatedTeamArr.concat(existTeamArr));
     }
-    console.log('Team()_generatedTeamArr_finish: ', generatedTeamArr);
     generatedTeamArr.forEach((character, index) => {
       const position = generatedPositionsPlayer[index];
       this.player.push(new PositionedCharacter(character, position));
@@ -71,9 +65,8 @@ export default class Team {
     const generatedTeamArr = generateTeam(
       this.allowedTypesNpc,
       maxLvl,
-      1, //  1 - для отладки смены уровней
-      //  charCount,
-    ); //  массив рандомных персонажей
+      charCount,
+    ); //  массив рандомных персонажей нпц
 
     const startPositionsNpc = []; //  массив допустимых начальных позиций персонажей
     for (let i = 0; i < this.boardSize ** 2; i += 1) {
@@ -96,10 +89,46 @@ export default class Team {
     });
   }
 
+  //  простое создание команд
   generateGameSet() {
     this.generateTeamPlayer();
     this.generateTeamNpc();
-    // console.log('after_start_gen_this.npc', this.npc);
-    // console.log('after_start_gen_this.player', this.player);
+  }
+
+  //  восстановление команд из загруженного state
+  reloadGameSet(loadedTeamPlayer = [], loadedTeamNpc = []) {
+    if (!loadedTeamPlayer && !loadedTeamNpc) return null;
+    this.player = [];
+    this.npc = [];
+    this.loadedPlayer = loadedTeamPlayer;
+    this.loadedNpc = loadedTeamNpc;
+    this.loadedPlayer.forEach((player) => {
+      const LoadedPlayerType = this.allowedTypesPlayer.find(
+        (allowedClass) => allowedClass.name.toLowerCase() === player.character.type,
+      );
+
+      const reloadedPlayerType = new LoadedPlayerType();
+      reloadedPlayerType.level = player.character.level;
+      reloadedPlayerType.health = player.character.health;
+      reloadedPlayerType.attack = player.character.attack;
+      reloadedPlayerType.defence = player.character.defence;
+
+      this.player.push(new PositionedCharacter(reloadedPlayerType, player.position));
+    });
+
+    this.loadedNpc.forEach((npc) => {
+      const LoadedNpcType = this.allowedTypesNpc.find(
+        (allowedClass) => allowedClass.name.toLowerCase() === npc.character.type,
+      );
+
+      const reloadedNpcType = new LoadedNpcType();
+      reloadedNpcType.level = npc.character.level;
+      reloadedNpcType.health = npc.character.health;
+      reloadedNpcType.attack = npc.character.attack;
+      reloadedNpcType.defence = npc.character.defence;
+      this.npc.push(new PositionedCharacter(reloadedNpcType, npc.position));
+    });
+
+    return true;
   }
 }
