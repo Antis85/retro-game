@@ -1,4 +1,4 @@
-import Character from '../team_generation/Character';
+import Character from '../teamGeneration/Character';
 
 export default class Magician extends Character {
   constructor(level) {

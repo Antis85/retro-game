@@ -1,4 +1,4 @@
-import Character from '../team_generation/Character';
+import Character from '../teamGeneration/Character';
 
 export default class Bowman extends Character {
   constructor(level) {

@@ -7,6 +7,7 @@ import Daemon from '../characters/Daemon';
 import GamePlay from '../GamePlay';
 import GameController from '../GameController';
 import GameStateService from '../GameStateService';
+import { calculateMove, calculateAttack } from '../calcs/calcs';
 
 const gamePlay = new GamePlay();
 gamePlay.container = document.createElement('div');
@@ -79,7 +80,7 @@ test('When player moving, cursor should be <pointer> style, cell should be selec
   expect(gamePlay.boardEl.style.cursor).toBe('pointer');
   const selected = gamePlay.cells[enteredIndex].classList.contains('selected-green');
   expect(selected).toBeTruthy();
-  const isMovable = gameCtrl.calculateMove('swordsman', selectedIndex, enteredIndex);
+  const isMovable = calculateMove('swordsman', selectedIndex, enteredIndex);
   expect(isMovable).toBeTruthy();
 });
 
@@ -89,7 +90,7 @@ test('When player moving, cursor should be <pointer> style, cell should be selec
   expect(gamePlay.boardEl.style.cursor).toBe('pointer');
   const selected = gamePlay.cells[enteredIndex].classList.contains('selected-green');
   expect(selected).toBeTruthy();
-  const isMovable = gameCtrl.calculateMove('swordsman', selectedIndex, enteredIndex);
+  const isMovable = calculateMove('swordsman', selectedIndex, enteredIndex);
   expect(isMovable).toBeTruthy();
 });
 
@@ -99,7 +100,7 @@ test('When player moving, cursor should be <pointer> style, cell should be selec
   expect(gamePlay.boardEl.style.cursor).toBe('pointer');
   const selected = gamePlay.cells[enteredIndex].classList.contains('selected-green');
   expect(selected).toBeTruthy();
-  const isMovable = gameCtrl.calculateMove('swordsman', selectedIndex, enteredIndex);
+  const isMovable = calculateMove('swordsman', selectedIndex, enteredIndex);
   expect(isMovable).toBeTruthy();
 });
 
@@ -109,7 +110,7 @@ test('When player moving, cursor should be <pointer> style, cell should be selec
   expect(gamePlay.boardEl.style.cursor).toBe('pointer');
   const selected = gamePlay.cells[enteredIndex].classList.contains('selected-green');
   expect(selected).toBeTruthy();
-  const isMovable = gameCtrl.calculateMove('swordsman', selectedIndex, enteredIndex);
+  const isMovable = calculateMove('swordsman', selectedIndex, enteredIndex);
   expect(isMovable).toBeTruthy();
 });
 
@@ -119,7 +120,7 @@ test('When player moving over max radius, cursor should be <not-allowed> style, 
   expect(gamePlay.boardEl.style.cursor).toBe('not-allowed');
   const selected = gamePlay.cells[enteredIndex].classList.contains('selected');
   expect(selected).toBeFalsy();
-  const isMovable = gameCtrl.calculateMove('swordsman', selectedIndex, enteredIndex);
+  const isMovable = calculateMove('swordsman', selectedIndex, enteredIndex);
   expect(isMovable).toBeFalsy();
 });
 test('When player moving over max radius, cursor should be <not-allowed> style, cell should be not selected', () => {
@@ -128,7 +129,7 @@ test('When player moving over max radius, cursor should be <not-allowed> style, 
   expect(gamePlay.boardEl.style.cursor).toBe('not-allowed');
   const selected = gamePlay.cells[enteredIndex].classList.contains('selected');
   expect(selected).toBeFalsy();
-  const isMovable = gameCtrl.calculateMove('swordsman', selectedIndex, enteredIndex);
+  const isMovable = calculateMove('swordsman', selectedIndex, enteredIndex);
   expect(isMovable).toBeFalsy();
 });
 test('When player moving over max radius, cursor should be <not-allowed> style, cell should be not selected', () => {
@@ -137,7 +138,7 @@ test('When player moving over max radius, cursor should be <not-allowed> style, 
   expect(gamePlay.boardEl.style.cursor).toBe('not-allowed');
   const selected = gamePlay.cells[enteredIndex].classList.contains('selected');
   expect(selected).toBeFalsy();
-  const isMovable = gameCtrl.calculateMove('swordsman', selectedIndex, enteredIndex);
+  const isMovable = calculateMove('swordsman', selectedIndex, enteredIndex);
   expect(isMovable).toBeFalsy();
 });
 
@@ -147,7 +148,7 @@ test('When player aiming target outside max radius, cursor should be <not-allowe
   expect(gamePlay.boardEl.style.cursor).toBe('not-allowed');
   const selected = gamePlay.cells[enteredIndex].classList.contains('selected');
   expect(selected).toBeFalsy();
-  const isAttackable = gameCtrl.calculateAttack('swordsman', selectedIndex, enteredIndex);
+  const isAttackable = calculateAttack('swordsman', selectedIndex, enteredIndex);
   expect(isAttackable).toBeFalsy();
 });
 
@@ -157,7 +158,7 @@ test('When player aiming target inside max radius, cursor should be <crosshair> 
   expect(gamePlay.boardEl.style.cursor).toBe('crosshair');
   const selected = gamePlay.cells[enteredIndex].classList.contains('selected-red');
   expect(selected).toBeTruthy();
-  const isAttackable = gameCtrl.calculateAttack('swordsman', selectedIndex, enteredIndex);
+  const isAttackable = calculateAttack('swordsman', selectedIndex, enteredIndex);
   expect(isAttackable).toBeTruthy();
 });
 
