@@ -15,8 +15,6 @@ export default class Team {
     this.characterCount = 2;
     this.player = [];
     this.npc = [];
-    this.loadedlayer = [];
-    this.loadedNpc = [];
     this.boardSize = 8;
   }
 
@@ -76,7 +74,7 @@ export default class Team {
     }
 
     const generatedPositionsNpc = []; //  массив рандомных начальных позиций персонажей
-    while (generatedPositionsNpc.length < this.characterCount) {
+    while (generatedPositionsNpc.length < charCount) {
       const randomPos = this.getRndNumber(startPositionsNpc);
       if (!generatedPositionsNpc.includes(randomPos)) {
         generatedPositionsNpc.push(randomPos);
@@ -100,33 +98,39 @@ export default class Team {
     if (!loadedTeamPlayer && !loadedTeamNpc) return null;
     this.player = [];
     this.npc = [];
-    this.loadedPlayer = loadedTeamPlayer;
-    this.loadedNpc = loadedTeamNpc;
-    this.loadedPlayer.forEach((player) => {
-      const LoadedPlayerType = this.allowedTypesPlayer.find(
-        (allowedClass) => allowedClass.name.toLowerCase() === player.character.type,
+    const loadedPlayer = loadedTeamPlayer;
+    const loadedNpc = loadedTeamNpc;
+    loadedPlayer.forEach((player) => {
+      const reloadedCharacters = [
+        ...this.allowedTypesPlayer,
+        ...this.allowedTypesNpc,
+      ].map((Type) => new Type());
+
+      const reloadedPlayer = reloadedCharacters.find(
+        (character) => character.type === player.character.type,
       );
 
-      const reloadedPlayerType = new LoadedPlayerType();
-      reloadedPlayerType.level = player.character.level;
-      reloadedPlayerType.health = player.character.health;
-      reloadedPlayerType.attack = player.character.attack;
-      reloadedPlayerType.defence = player.character.defence;
-
-      this.player.push(new PositionedCharacter(reloadedPlayerType, player.position));
+      reloadedPlayer.level = player.character.level;
+      reloadedPlayer.health = player.character.health;
+      reloadedPlayer.attack = player.character.attack;
+      reloadedPlayer.defence = player.character.defence;
+      this.player.push(new PositionedCharacter(reloadedPlayer, player.position));
     });
 
-    this.loadedNpc.forEach((npc) => {
-      const LoadedNpcType = this.allowedTypesNpc.find(
-        (allowedClass) => allowedClass.name.toLowerCase() === npc.character.type,
+    loadedNpc.forEach((npc) => {
+      const reloadedCharacters = [
+        ...this.allowedTypesPlayer,
+        ...this.allowedTypesNpc,
+      ].map((Type) => new Type());
+      const reloadedNpc = reloadedCharacters.find(
+        (character) => character.type === npc.character.type,
       );
 
-      const reloadedNpcType = new LoadedNpcType();
-      reloadedNpcType.level = npc.character.level;
-      reloadedNpcType.health = npc.character.health;
-      reloadedNpcType.attack = npc.character.attack;
-      reloadedNpcType.defence = npc.character.defence;
-      this.npc.push(new PositionedCharacter(reloadedNpcType, npc.position));
+      reloadedNpc.level = npc.character.level;
+      reloadedNpc.health = npc.character.health;
+      reloadedNpc.attack = npc.character.attack;
+      reloadedNpc.defence = npc.character.defence;
+      this.npc.push(new PositionedCharacter(reloadedNpc, npc.position));
     });
 
     return true;

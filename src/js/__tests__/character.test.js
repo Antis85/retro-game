@@ -1,4 +1,4 @@
-import Character from '../team_generation/Character';
+import Character from '../teamGeneration/Character';
 import Bowman from '../characters/Bowman';
 import Swordsman from '../characters/Swordsman';
 import Magician from '../characters/Magician';
