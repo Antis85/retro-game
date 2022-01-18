@@ -1,4 +1,4 @@
-[![Build status](https://ci.appveyor.com/api/projects/status/wvag0f4aay8pcgcn/branch/master?svg=true)](https://ci.appveyor.com/project/Antis85/js-advanced-diploma/branch/master)
+[![Build status](https://ci.appveyor.com/api/projects/status/nkrsxeig2irj7qv3/branch/master?svg=true)](https://ci.appveyor.com/project/Antis85/retro-game/branch/master)
 
 # Retro Game
 [Open app](https://antis85.github.io/retro-game)
