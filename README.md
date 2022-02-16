@@ -1,39 +1,67 @@
 [![Build status](https://ci.appveyor.com/api/projects/status/nkrsxeig2irj7qv3/branch/master?svg=true)](https://ci.appveyor.com/project/Antis85/retro-game/branch/master)
 
 # Retro Game
-[Open app](https://antis85.github.io/retro-game)
+
+## Запуск приложения
+Для запуска приложения достаточно перейти по ссылке: https://antis85.github.io/retro-game
 
 ## Технологии
-
 + Html *(предоставлена готовая реализация)*
 + CSS *(предоставлена готовая реализация)*
 + Javascript
 + ООП
-+ Unit-testing
++ Web Storage API
++ Unit-testing (Jest)
 
-## Инфраструктура проекта
-
-Установлены и настроены Webpack, Webpack DevServer, Babel, ESLint, Jest.
-CI - Appveyor.
-Проект развернут на GitHub Pages.
+## Инфраструктура проекта   
+1. Установлены и настроены Webpack, Webpack DevServer, Babel, ESLint, Jest.   
+2. CI/CD: Appveyor+GitHub Pages. 
 
 ## Основные модули
+1. GamePlay - класс, отвечающий за взаимодействие с HTML-страницей (https://github.com/Antis85/retro-game/blob/master/src/js/GamePlay.js) *(был предварительно предоставлен уже написанный)*
+2. GameController - класс, отвечающий за логику приложения (https://github.com/Antis85/retro-game/blob/master/src/js/GameController.js)
+3. GameStateService - объект, который взаимодействует с текущим состоянием (сохраняет его, чтобы оно не потерялось при перезагрузке страницы, может экспортировать в файл или загрузить из файла) (https://github.com/Antis85/retro-game/blob/master/src/js/GameStateService.js)
+4. Character - базовый класс, на основании которого реализуются специализированные персонажи (https://github.com/Antis85/retro-game/blob/master/src/js/teamGeneration/Character.js)
+5. PositionedCharacter - персонаж, привязанный к координате на поле (https://github.com/Antis85/retro-game/blob/master/src/js/teamGeneration/PositionedCharacter.js)
+6. Team - класс для команды (набор персонажей), представляющих компьютер и игрока (https://github.com/Antis85/retro-game/blob/master/src/js/teamGeneration/Team.js)
+7. generators - модуль, содержащий вспомогательные функции для генерации команды и персонажей (https://github.com/Antis85/retro-game/blob/master/src/js/teamGeneration/generators.js)
+8. calcs - расчет действий персонажей (https://github.com/Antis85/retro-game/blob/master/src/js/calcs/calcs.js)
+9. npcActionsCalcs - логика NPC (https://github.com/Antis85/retro-game/blob/master/src/js/calcs/npcActionsCalcs.js)
+10. Модули для юнит-тестирования (https://github.com/Antis85/retro-game/tree/master/src/js/__tests__):
+    + character - тесты создания персонажей
+    + gamecontroller - тест механики игрового поля
+    + gamestateservice - тест загрузки игры
+    + utils - тест отображения игрового поля
 
-1. GamePlay - класс, отвечающий за взаимодействие с HTML-страницей *(был предварительно предоставлен уже написанный)*
-2. GameController - класс, отвечающий за логику приложения
-3. Character - базовый класс, на основании которого реализуются специализированные персонажи
-4. GameState - объект, который хранит текущее состояние игры (может сам себя воссоздавать из другого объекта)
-5. GameStateService - объект, который взаимодействует с текущим состоянием (сохраняет его, чтобы оно не потерялось при перезагрузке страницы, может экспортировать в файл или загрузить из файла)
-6. PositionedCharacter - персонаж, привязанный к координате на поле
-7. Team - класс для команды (набор персонажей), представляющих компьютер и игрока
-8. generators - модуль, содержащий вспомогательные функции для генерации команды и персонажей
+## Локальная установка
+Для работы с приложением на ПК требуется:
+1. Склонировать репозиторий:
+    ```
+    git clone https://github.com/Antis85/retro-game.git
+    ```
+
+2. Установить зависимости:
+    ```
+    npm install
+    ```
+
+3. Запустить приложение:
+    ```
+    npm start
+    ```
+    
+4. Для проверки и тестирования кода приложения, при его изменении:
+    ```
+    npm run lint
+    ```
+    ```
+    npm test -- --coverage
+    ```
 
 ## Концепция игры
-
 Двухмерная игра в стиле фэнтези, где игроку предстоит выставлять своих персонажей против персонажей нечисти. После каждого раунда, восстанавливается жизнь уцелевших персонажей игрока и повышается их уровень. Максимальный уровень - 4.
 
 ## Механика
-
 Размер поля фиксирован (8x8). Направление движения аналогично ферзю в шахматах. Персонажи разного типа могут ходить на разное расстояние (можно перескакивать через других персонажей - т.е. как конь в шахматах, единственно - ходим по прямым и по диагонали):
 * Мечники/Скелеты - 4 клетки в любом направлении
 * Лучники/Вампиры - 2 клетки в любом направлении
