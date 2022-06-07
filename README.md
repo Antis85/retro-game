@@ -27,7 +27,7 @@
 7. generators - модуль, содержащий вспомогательные функции для генерации команды и персонажей (https://github.com/Antis85/retro-game/blob/master/src/js/teamGeneration/generators.js)
 8. calcs - расчет действий персонажей (https://github.com/Antis85/retro-game/blob/master/src/js/calcs/calcs.js)
 9. npcActionsCalcs - логика NPC (https://github.com/Antis85/retro-game/blob/master/src/js/calcs/npcActionsCalcs.js)
-10. Модули для юнит-тестирования (https://github.com/Antis85/retro-game/tree/master/src/js/__tests__):
+10. Модули для юнит-тестирования ([папка \_\_tests\_\_](https://github.com/Antis85/retro-game/tree/master/src/js/__tests__)):
     + character - тесты создания персонажей
     + gamecontroller - тест механики игрового поля
     + gamestateservice - тест загрузки игры
